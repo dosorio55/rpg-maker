@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : CharacterBase
 {
-    private Animator _animator;
+    // private Animator _animator;
 
     [Header("Movement")] //================================================
     [SerializeField] private float _moveSpeed = 7;
     private float _horizontalInput;
-
-    [SerializeField] private Rigidbody2D _rigidBody;
-
     [SerializeField] private float _jumpForce = 10;
     private bool _isMoving = false;
-    private bool _facingRight = true;
-    private int _facingDirection = 1;
 
     [Header("Attack")] //================================================
     [SerializeField] private bool _isAttacking = false;
@@ -31,42 +26,22 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float _dashCooldown = 0.4f;
     [SerializeField] private bool _dashOnCooldown = false;
 
-
-    [Header("Ground Check")] //================================================
-    [SerializeField]
-    private LayerMask _groundLayer;
-
-    [SerializeField]
-    private float _groundCheckDistance;
-
-    [SerializeField]
-    private bool _isGrounded = true;
-
-    void Start()
+    protected override void Start()
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
-        _animator = GetComponentInChildren<Animator>();
+        base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         CheckCoolDown();
         CheckInput();
         Movement();
 
         AnimatorControllers();
 
-        _isGrounded = Physics2D.Raycast(
-            transform.position,
-            Vector2.down,
-            _groundCheckDistance,
-            _groundLayer
-        );
-
         _comboAttackTimer -= Time.deltaTime;
-
-
     }
 
     private IEnumerator Dash()
@@ -86,7 +61,7 @@ public class PlayerScript : MonoBehaviour
             _dashCooldown -= Time.deltaTime;
             if (_dashCooldown <= 0)
             {
-                _dashCooldown = 3f;
+                _dashCooldown = 0.4f;
                 _dashOnCooldown = false;
             }
         }
@@ -186,21 +161,5 @@ public class PlayerScript : MonoBehaviour
         // Vector3 newPos = transform.position + moveInput * Time.deltaTime * _moveSpeed;
         // _rigidBody.MovePosition(newPos);
         #endregion
-    }
-
-    void Flip()
-    {
-        _facingRight = !_facingRight;
-        _facingDirection *= -1;
-        transform.Rotate(0, 180, 0);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(
-            transform.position,
-            new Vector3(transform.position.x, transform.position.y - _groundCheckDistance, 0)
-        );
     }
 }
