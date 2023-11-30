@@ -39,7 +39,7 @@ public class CharacterBase : MonoBehaviour
     {
         _isGrounded = Physics2D.Raycast(_groundCheck.position, Vector2.down, _groundCheckDistance, _groundLayer);
         if (_wallCheck != null)
-          _isWallDetected = Physics2D.Raycast(_wallCheck.position, Vector2.right, _wallCheckDistance * _facingDirection, _groundLayer);
+            _isWallDetected = Physics2D.Raycast(_wallCheck.position, Vector2.right * _facingDirection, _wallCheckDistance, _groundLayer);
         //     _isWallDetected = Physics2D.Raycast(_wallCheck.position, Vector2.right * _facingDirection, _wallCheckDistance, _groundLayer);
     }
 
@@ -50,7 +50,7 @@ public class CharacterBase : MonoBehaviour
         transform.Rotate(0, 180, 0);
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(
