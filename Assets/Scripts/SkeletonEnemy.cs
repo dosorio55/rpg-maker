@@ -34,7 +34,7 @@ public class SkeletonEnemy : CharacterBase
     private void Movement()
     {
         float actualSpeed = _isPlayerDetected ? _moveSpeed + 4.4f : _moveSpeed;
-        _rigidBody.velocity = new Vector2(actualSpeed * _facingDirection, _rigidBody.velocity.y);
+        // _rigidBody.velocity = new Vector2(actualSpeed * _facingDirection, _rigidBody.velocity.y);
     }
 
     protected void CheckPlayerCollition()
