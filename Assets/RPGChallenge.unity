@@ -388,7 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Animator: {fileID: 486480199}
   groundCheck: {fileID: 1667624101}
-  groundCheckDistance: 0.05
+  groundCheckDistance: 0.27
   wallCheck: {fileID: 1468424535}
   wallCheckDistance: 0.57
   groundLayer:

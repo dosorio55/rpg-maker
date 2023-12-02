@@ -11,7 +11,6 @@ public class MoveState : PlayerGroundedState
 
     public override void Enter()
     {
-        Debug.Log("MoveState");
         base.Enter();
     }
 
@@ -21,6 +20,11 @@ public class MoveState : PlayerGroundedState
 
         player.SetVelocity(xInput * player.MoveSpeed, player.RigidBody.velocity.y);
 
+        ChangeStateController();
+    }
+
+    private void ChangeStateController()
+    {
         if (xInput == 0)
             stateMachine.ChangeState(player.IdleState);
     }

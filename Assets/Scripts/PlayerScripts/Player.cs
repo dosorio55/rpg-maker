@@ -21,12 +21,18 @@ public class Player : MonoBehaviour
     [Header("Player Properties")]
     [SerializeField] public float MoveSpeed = 7;
     [SerializeField] public float JumpForce = 10;
+    [SerializeField] public float DashSpeed = 20f;
+    [SerializeField] public float DashDuration = 0.2f;
+    [SerializeField] public float DashCooldown = 0.8f;
 
+    // public int FacingDirection { get; private set; }
+    public bool facingRight = true;
 
     #region States
     public MoveState MoveState { get; private set; }
     public IdleState IdleState { get; private set; }
     public JumpState JumpState { get; private set; }
+    public DashState DashState { get; private set; }
     #endregion
 
     public void Awake()
@@ -36,6 +42,7 @@ public class Player : MonoBehaviour
         IdleState = new IdleState(this, StateMachine, "isIdle");
         MoveState = new MoveState(this, StateMachine, "isMoving");
         JumpState = new JumpState(this, StateMachine, "isJumping");
+        DashState = new DashState(this, StateMachine, "isDashing");
     }
 
     public void Start()
@@ -53,9 +60,37 @@ public class Player : MonoBehaviour
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         RigidBody.velocity = new Vector2(_xVelocity, _yVelocity);
+        FlipController(_xVelocity);
     }
-                                    //   Physics2D.Raycast(_groundCheck.position, Vector2.down, _groundCheckDistance, _groundLayer);
+
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
+
+    protected void Flip()
+    {
+        facingRight = !facingRight;
+        // FacingDirection *= -1;
+        transform.Rotate(0, 180, 0);
+    }
+
+    public void FlipController(float _x)
+    {
+        if (_x > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (_x < 0 && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    public IEnumerator StartTimer(System.Action _endTimerAction, float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        Debug.Log("Timer ended");
+        _endTimerAction();
+
+    }
 
     protected virtual void OnDrawGizmos()
     {
