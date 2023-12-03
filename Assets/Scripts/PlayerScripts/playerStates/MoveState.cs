@@ -24,7 +24,7 @@ public class MoveState : GroundedState
 
     private void ChangeStateController()
     {
-        if (xInput == 0)
+        if (xInput == 0 || player.IsWallDetected())
             stateMachine.ChangeState(player.IdleState);
     }
 

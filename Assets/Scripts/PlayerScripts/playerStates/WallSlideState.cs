@@ -11,30 +11,40 @@ public class WallSlideState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("WallSlideState");
+        player.IsWallSliding = true;
     }
 
     public override void Update()
     {
         base.Update();
-        
-        player.SetVelocity(xInput * player.MoveSpeed * 0.8f, player.RigidBody.velocity.y);
+
+        WallFallingSpeed();
 
         ChangeStateController();
     }
 
+    private void WallFallingSpeed()
+    {
+        if (xInput == player.FacingDirection)
+            player.SetVelocity(player.RigidBody.velocity.x, player.RigidBody.velocity.y * player.WallSlideSpeed);
+        else if (xInput == -player.FacingDirection)
+            player.SetVelocity(xInput * player.MoveSpeed, player.RigidBody.velocity.y);
+        else
+            player.SetVelocity(player.RigidBody.velocity.x, player.RigidBody.velocity.y * 0.97f);
+    }
+
     private void ChangeStateController()
     {
-        if (player.IsGroundDetected() && player.RigidBody.velocity.y <= 0.01f)
+        if ((player.IsGroundDetected() && player.RigidBody.velocity.y <= 0.01f) || !player.IsWallDetected())
             stateMachine.ChangeState(player.IdleState);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            stateMachine.ChangeState(player.AirState);
+
     }
     public override void Exit()
     {
+        player.IsWallSliding = false;
         base.Exit();
     }
-
-
-
-
-
 }
