@@ -11,11 +11,21 @@ public class IdleState : GroundedState
     public override void Enter()
     {
         base.Enter();
+        player.RigidBody.velocity = Vector2.zero;
     }
 
     public override void Update()
     {
         base.Update();
+
+        ChangeStateController();
+    }
+
+    private void ChangeStateController()
+    {
+
+        if (xInput == player.FacingDirection && player.IsWallDetected())
+            return;
 
         if (xInput != 0)
             stateMachine.ChangeState(player.MoveState);

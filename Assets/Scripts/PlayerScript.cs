@@ -69,10 +69,8 @@ public class PlayerScript : CharacterBase
 
     private void AnimatorControllers()
     {
-        // _isMoving = _rigidBody.velocity.x != 0;
         _animator.SetBool("isMoving", _isMoving);
         _animator.SetBool("isGrounded", _isGrounded);
-        // _animator.SetFloat("yVelocity", _rigidBody.velocity.y);
         _animator.SetBool("isDashing", _isDashing);
         _animator.SetBool("isAttacking", _isAttacking);
         _animator.SetInteger("comboCounter", _comboCount);

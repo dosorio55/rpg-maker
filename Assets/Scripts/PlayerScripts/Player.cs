@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public Animator Animator;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody2D RigidBody { get; private set; }
+    public Transform Transform { get; private set; }
     #endregion
 
     [Header("Collision Info")]
@@ -21,7 +22,12 @@ public class Player : MonoBehaviour
     [Header("Player Properties")]
     [SerializeField] public float MoveSpeed = 7;
     [SerializeField] public float JumpForce = 10;
-    public bool facingRight = true;
+    public int FacingDirection = 1;
+
+    [Header("Wall Slide Properties")]
+    [SerializeField] public float WallSlideSpeed = 0.5f;
+    [SerializeField] public float WallSlide;
+    public bool IsWallSliding { get; set; }
 
     [Header("Dash Properties")]
 
@@ -52,9 +58,9 @@ public class Player : MonoBehaviour
 
     public void Start()
     {
+        RigidBody = GetComponent<Rigidbody2D>();
         StateMachine.Initialize(IdleState);
         Animator = GetComponentInChildren<Animator>();
-        RigidBody = GetComponent<Rigidbody2D>();
     }
 
     public void Update()
@@ -73,33 +79,32 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && ableToDash)
         {
+            if (IsWallSliding)
+                Flip();
             ableToDash = false;
-            // int playerFacingDir = facingRight ? 1 : -1;
             int xInput = (int)Input.GetAxisRaw("Horizontal");
-            DashDirection = xInput == 0 ? CheckFacingDirection() : xInput;
+            DashDirection = xInput == 0 ? FacingDirection : xInput;
             StartCoroutine(StartTimer(() => ableToDash = true, DashCooldown));
             StateMachine.ChangeState(DashState);
         }
     }
 
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
-    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * CheckFacingDirection(), wallCheckDistance, groundLayer);
-
-    private int CheckFacingDirection() => facingRight ? 1 : -1;
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, wallCheckDistance, groundLayer);
 
     protected void Flip()
     {
-        facingRight = !facingRight;
+        FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }
 
     public void FlipController(float _x)
     {
-        if (_x > 0 && !facingRight)
+        if (_x > 0 && FacingDirection != 1)
         {
             Flip();
         }
-        else if (_x < 0 && facingRight)
+        else if (_x < 0 && FacingDirection == 1)
         {
             Flip();
         }
@@ -108,20 +113,25 @@ public class Player : MonoBehaviour
     public IEnumerator StartTimer(System.Action _endTimerAction, float _time)
     {
         yield return new WaitForSeconds(_time);
-        Debug.Log("Timer ended");
         _endTimerAction();
+    }
 
+    public void StopTimer(Coroutine _coroutine)
+    {
+        StopCoroutine(_coroutine);
     }
 
     protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
+        // line to check if the player is grounded
         Gizmos.DrawLine(
             groundCheck.position,
             new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance, 0)
         );
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        // line to check if the player is touching a wall
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * FacingDirection, wallCheck.position.y));
     }
 }
