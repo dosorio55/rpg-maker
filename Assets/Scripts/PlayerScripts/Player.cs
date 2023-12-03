@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     public AirState AirState { get; private set; }
     public DashState DashState { get; private set; }
     public WallSlideState WallSlideState { get; private set; }
+    public AttackState AttackState { get; private set; }
     #endregion
 
     public void Awake()
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour
         AirState = new AirState(this, StateMachine, "isJumping");
         DashState = new DashState(this, StateMachine, "isDashing");
         WallSlideState = new WallSlideState(this, StateMachine, "isWallSliding");
+        AttackState = new AttackState(this, StateMachine, "isAttacking");
     }
 
     public void Start()
@@ -74,6 +76,8 @@ public class Player : MonoBehaviour
         RigidBody.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
+
+    public void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
     private void CheckDashInput()
     {
