@@ -12,8 +12,6 @@ public class DashState : PlayerState
     {
         base.Enter();
 
-        Debug.Log("DashState");
-
         player.StartCoroutine(player.StartTimer(ChangeStateController, player.DashDuration));
     }
 
@@ -25,8 +23,8 @@ public class DashState : PlayerState
 
     private void Dash()
     {
-        int facingDirection = player.facingRight ? 1 : -1;
-        player.SetVelocity(xInput + player.DashSpeed * facingDirection, player.RigidBody.velocity.y);
+        // player.RigidBody.AddForce(Vector2.right * player.DashSpeed * player.DashDirection, ForceMode2D.Impulse);
+        player.SetVelocity(xInput + player.DashSpeed * player.DashDirection, 0);
     }
 
     private void ChangeStateController()

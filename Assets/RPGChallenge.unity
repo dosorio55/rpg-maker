@@ -395,7 +395,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   MoveSpeed: 7
-  JumpForce: 10
+  JumpForce: 26.2
+  facingRight: 1
+  DashSpeed: 20
+  DashDuration: 0.2
+  DashCooldown: 0.8
 --- !u!1 &486480196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,8 +1142,8 @@ Transform:
   m_GameObject: {fileID: 1872717056}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.83, y: -1.74, z: 0}
-  m_LocalScale: {x: 5.958292, y: 5.6693516, z: 1}
+  m_LocalPosition: {x: 17.83, y: 2.98, z: 0}
+  m_LocalScale: {x: 5.958292, y: 14.740314, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

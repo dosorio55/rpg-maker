@@ -21,18 +21,22 @@ public class Player : MonoBehaviour
     [Header("Player Properties")]
     [SerializeField] public float MoveSpeed = 7;
     [SerializeField] public float JumpForce = 10;
+    public bool facingRight = true;
+
+    [Header("Dash Properties")]
+
     [SerializeField] public float DashSpeed = 20f;
+    private bool ableToDash = true;
     [SerializeField] public float DashDuration = 0.2f;
     [SerializeField] public float DashCooldown = 0.8f;
-
-    // public int FacingDirection { get; private set; }
-    public bool facingRight = true;
+    public int DashDirection { get; private set; } = 1;
 
     #region States
     public MoveState MoveState { get; private set; }
     public IdleState IdleState { get; private set; }
-    public JumpState JumpState { get; private set; }
+    public AirState AirState { get; private set; }
     public DashState DashState { get; private set; }
+    public WallSlideState WallSlideState { get; private set; }
     #endregion
 
     public void Awake()
@@ -41,8 +45,9 @@ public class Player : MonoBehaviour
 
         IdleState = new IdleState(this, StateMachine, "isIdle");
         MoveState = new MoveState(this, StateMachine, "isMoving");
-        JumpState = new JumpState(this, StateMachine, "isJumping");
+        AirState = new AirState(this, StateMachine, "isJumping");
         DashState = new DashState(this, StateMachine, "isDashing");
+        WallSlideState = new WallSlideState(this, StateMachine, "isWallSliding");
     }
 
     public void Start()
@@ -55,6 +60,7 @@ public class Player : MonoBehaviour
     public void Update()
     {
         StateMachine.CurrentState.Update();
+        CheckDashInput();
     }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
@@ -63,12 +69,27 @@ public class Player : MonoBehaviour
         FlipController(_xVelocity);
     }
 
+    private void CheckDashInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && ableToDash)
+        {
+            ableToDash = false;
+            // int playerFacingDir = facingRight ? 1 : -1;
+            int xInput = (int)Input.GetAxisRaw("Horizontal");
+            DashDirection = xInput == 0 ? CheckFacingDirection() : xInput;
+            StartCoroutine(StartTimer(() => ableToDash = true, DashCooldown));
+            StateMachine.ChangeState(DashState);
+        }
+    }
+
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * CheckFacingDirection(), wallCheckDistance, groundLayer);
+
+    private int CheckFacingDirection() => facingRight ? 1 : -1;
 
     protected void Flip()
     {
         facingRight = !facingRight;
-        // FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }
 
