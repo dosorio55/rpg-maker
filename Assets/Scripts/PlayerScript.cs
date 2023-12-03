@@ -8,9 +8,9 @@ public class PlayerScript : CharacterBase
     // private Animator _animator;
 
     [Header("Movement")] //================================================
-    [SerializeField] private float _moveSpeed = 7;
+    // [SerializeField] private float _moveSpeed = 7;
     private float _horizontalInput;
-    [SerializeField] private float _jumpForce = 10;
+    // [SerializeField] private float _jumpForce = 10;
     private bool _isMoving = false;
 
     [Header("Attack")] //================================================
@@ -21,7 +21,7 @@ public class PlayerScript : CharacterBase
 
     [Header("Dash")] //================================================
     [SerializeField] private float _dashDuration = 0.3f;
-    [SerializeField] private float _dashSpeed = 15f;
+    // [SerializeField] private float _dashSpeed = 15f;
     [SerializeField] private bool _isDashing = false;
     [SerializeField] private float _dashCooldown = 0.4f;
     [SerializeField] private bool _dashOnCooldown = false;
@@ -69,10 +69,10 @@ public class PlayerScript : CharacterBase
 
     private void AnimatorControllers()
     {
-        _isMoving = _rigidBody.velocity.x != 0;
+        // _isMoving = _rigidBody.velocity.x != 0;
         _animator.SetBool("isMoving", _isMoving);
         _animator.SetBool("isGrounded", _isGrounded);
-        _animator.SetFloat("yVelocity", _rigidBody.velocity.y);
+        // _animator.SetFloat("yVelocity", _rigidBody.velocity.y);
         _animator.SetBool("isDashing", _isDashing);
         _animator.SetBool("isAttacking", _isAttacking);
         _animator.SetInteger("comboCounter", _comboCount);
@@ -117,20 +117,18 @@ public class PlayerScript : CharacterBase
 
     private void Movement()
     {
-        if (_isAttacking)
-        {
-            _rigidBody.velocity = new Vector2(0, 0);
-        }
-        else if (_isDashing)
-        {
-            _rigidBody.velocity = new Vector2(_facingDirection * _dashSpeed, 0);
-        }
-        else
-        {
-            _rigidBody.velocity = new Vector2(_horizontalInput * _moveSpeed, _rigidBody.velocity.y);
-        }
-        {
-        }
+        // if (_isAttacking)
+        // {
+        //     _rigidBody.velocity = new Vector2(0, 0);
+        // }
+        // else if (_isDashing)
+        // {
+        //     _rigidBody.velocity = new Vector2(_facingDirection * _dashSpeed, 0);
+        // }
+        // else
+        // {
+        //     _rigidBody.velocity = new Vector2(_horizontalInput * _moveSpeed, _rigidBody.velocity.y);
+        // }
 
 
         if (_horizontalInput > 0 && !_facingRight)
@@ -145,10 +143,10 @@ public class PlayerScript : CharacterBase
 
     private void Jump()
     {
-        if (_isGrounded)
-        {
-            _rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-        }
+        // if (_isGrounded)
+        // {
+            // _rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        // }
     }
 
     void FixedUpdate()

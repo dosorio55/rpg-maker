@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterBase : MonoBehaviour
 {
-    protected Rigidbody2D _rigidBody;
+ 
     protected Animator _animator;
 
     [Header("Collition Information")] //================================================
@@ -26,7 +26,7 @@ public class CharacterBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
+        // _rigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
     }
 
