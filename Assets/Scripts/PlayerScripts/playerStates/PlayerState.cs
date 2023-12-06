@@ -30,6 +30,8 @@ public class PlayerState
         player.Animator.SetFloat("yVelocity", player.RigidBody.velocity.y);
     }
 
+    
+
     public virtual void AnimationFinishTrigger()
     {
         triggerCalled = true;
