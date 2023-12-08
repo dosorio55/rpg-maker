@@ -5,13 +5,14 @@ using UnityEngine;
 public class DashState : PlayerState
 {
     Coroutine dashCoroutine;
-    public DashState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public DashState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName)
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void EnterState()
     {
-        base.Enter();
+        base.EnterState();
 
         dashCoroutine = player.StartCoroutine(player.StartTimer(ChangeStateController, player.DashDuration));
     }
@@ -40,9 +41,9 @@ public class DashState : PlayerState
         stateMachine.ChangeState(player.IdleState);
     }
 
-    public override void Exit()
+    public override void ExitState()
     {
-        base.Exit();
+        base.ExitState();
     }
 }
 

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class GroundedState : PlayerState
 {
-    public GroundedState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public GroundedState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName) 
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void EnterState()
     {
-        base.Enter();
+        base.EnterState();
     }
 
     public override void Update()
@@ -28,8 +29,8 @@ public class GroundedState : PlayerState
 
     }
 
-    public override void Exit()
+    public override void ExitState()
     {
-        base.Exit();
+        base.ExitState();
     }
 }

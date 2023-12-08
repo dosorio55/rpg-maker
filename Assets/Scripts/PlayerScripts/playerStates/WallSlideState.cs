@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class WallSlideState : PlayerState
 {
-    public WallSlideState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public WallSlideState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName) 
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void EnterState()
     {
-        base.Enter();
+        base.EnterState();
         player.IsWallSliding = true;
     }
 
@@ -42,9 +43,9 @@ public class WallSlideState : PlayerState
             stateMachine.ChangeState(player.AirState);
 
     }
-    public override void Exit()
+    public override void ExitState()
     {
         player.IsWallSliding = false;
-        base.Exit();
+        base.ExitState();
     }
 }

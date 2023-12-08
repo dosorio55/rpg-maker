@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState
+public class PlayerState : BaseState
 {
-    protected PlayerStateMachine stateMachine;
+    protected StateMachine<PlayerState> stateMachine;
     protected Player player;
 
     protected float xInput;
     protected string animBoolName;
     protected bool triggerCalled;
 
-    protected PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
+    protected PlayerState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName)
     {
         this.player = _player;
         this.stateMachine = _stateMachine;
         this.animBoolName = _animBoolName;
     }
 
-    public virtual void Enter()
+    public override void EnterState()
     {
         player.Animator.SetBool(animBoolName, true);
         triggerCalled = false;
@@ -37,7 +37,7 @@ public class PlayerState
         triggerCalled = true;
     }
 
-    public virtual void Exit()
+    public override void ExitState()
     {
         player.Animator.SetBool(animBoolName, false);
     }

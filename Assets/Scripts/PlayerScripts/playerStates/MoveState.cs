@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class MoveState : GroundedState
 {
-    public MoveState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public MoveState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName) 
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void EnterState()
     {
-        base.Enter();
+        base.EnterState();
     }
 
     public override void Update()
     {
-        base.Update();
 
         player.SetVelocity(xInput * player.MoveSpeed, player.RigidBody.velocity.y);
-
         ChangeStateController();
+        
+        base.Update();
     }
 
     private void ChangeStateController()
@@ -28,8 +29,8 @@ public class MoveState : GroundedState
             stateMachine.ChangeState(player.IdleState);
     }
 
-    public override void Exit()
+    public override void ExitState()
     {
-        base.Exit();
+        base.ExitState();
     }
 }

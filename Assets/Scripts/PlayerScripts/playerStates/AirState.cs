@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class AirState : PlayerState
 {
-    public AirState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public AirState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName) 
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void EnterState()
     {
-        base.Enter();
+        base.EnterState();
 
         if (player.IsGroundDetected())
             player.RigidBody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
@@ -40,8 +41,8 @@ public class AirState : PlayerState
             stateMachine.ChangeState(player.WallSlideState);
     }
 
-    public override void Exit()
+    public override void ExitState()
     {
-        base.Exit();
+        base.ExitState();
     }
 }

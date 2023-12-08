@@ -19,11 +19,6 @@ public class Entity : MonoBehaviour
     [SerializeField] protected LayerMask groundLayer;
     public int FacingDirection = 1;
 
-    protected virtual void Awake()
-    {
-
-    }
-
     protected virtual void Start()
     {
         RigidBody = GetComponent<Rigidbody2D>();
@@ -32,7 +27,6 @@ public class Entity : MonoBehaviour
 
     protected virtual void Update()
     {
-
     }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
@@ -73,6 +67,10 @@ public class Entity : MonoBehaviour
     public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
     public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, wallCheckDistance, groundLayer);
 
+    public virtual void StopMoving()
+    {
+        SetVelocity(0, RigidBody.velocity.y);
+    }
 
     protected virtual void OnDrawGizmos()
     {

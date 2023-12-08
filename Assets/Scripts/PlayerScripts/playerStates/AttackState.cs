@@ -7,19 +7,20 @@ public class AttackState : PlayerState
     private float comboCooldown = 0.5f;
     private float lastAttackTime = 0f;
     private int comboCounter = 0;
-    public AttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
+    public AttackState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName)
         : base(_player, _stateMachine, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void EnterState()
     {
-        base.Enter();
+        base.EnterState();
+        player.StopMoving();
 
-
+        player.RigidBody.velocity = Vector2.zero;
         if (Time.time - lastAttackTime > comboCooldown || comboCounter > 2)
             comboCounter = 0;
-        
+
         player.Animator.SetInteger("comboCounter", comboCounter);
     }
 
@@ -31,13 +32,10 @@ public class AttackState : PlayerState
             stateMachine.ChangeState(player.IdleState);
     }
 
-    public override void Exit()
+    public override void ExitState()
     {
-        base.Exit();
+        base.ExitState();
         lastAttackTime = Time.time;
         comboCounter++;
     }
-
-
-
 }
