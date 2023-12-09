@@ -9,9 +9,9 @@ public class AirState : PlayerState
     {
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
-        base.EnterState();
+        base.Enter();
 
         if (player.IsGroundDetected())
             player.RigidBody.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
@@ -41,8 +41,8 @@ public class AirState : PlayerState
             stateMachine.ChangeState(player.WallSlideState);
     }
 
-    public override void ExitState()
+    public override void Exit()
     {
-        base.ExitState();
+        base.Exit();
     }
 }

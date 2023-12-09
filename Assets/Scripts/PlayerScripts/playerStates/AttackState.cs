@@ -12,9 +12,9 @@ public class AttackState : PlayerState
     {
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
-        base.EnterState();
+        base.Enter();
         player.StopMoving();
 
         player.RigidBody.velocity = Vector2.zero;
@@ -32,9 +32,9 @@ public class AttackState : PlayerState
             stateMachine.ChangeState(player.IdleState);
     }
 
-    public override void ExitState()
+    public override void Exit()
     {
-        base.ExitState();
+        base.Exit();
         lastAttackTime = Time.time;
         comboCounter++;
     }

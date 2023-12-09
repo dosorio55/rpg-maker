@@ -18,7 +18,7 @@ public class PlayerState : BaseState
         this.animBoolName = _animBoolName;
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
         player.Animator.SetBool(animBoolName, true);
         triggerCalled = false;
@@ -30,14 +30,12 @@ public class PlayerState : BaseState
         player.Animator.SetFloat("yVelocity", player.RigidBody.velocity.y);
     }
 
-    
-
     public virtual void AnimationFinishTrigger()
     {
         triggerCalled = true;
     }
 
-    public override void ExitState()
+    public override void Exit()
     {
         player.Animator.SetBool(animBoolName, false);
     }

@@ -69,7 +69,7 @@ public class Player : Entity
             ableToDash = false;
             int xInput = (int)Input.GetAxisRaw("Horizontal");
             DashDirection = xInput == 0 ? FacingDirection : xInput;
-            StartCoroutine(StartTimer(() => ableToDash = true, DashCooldown));
+            SetTimer(() => ableToDash = true, DashCooldown);
             StateMachine.ChangeState(DashState);
         }
     }

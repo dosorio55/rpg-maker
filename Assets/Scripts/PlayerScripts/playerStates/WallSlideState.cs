@@ -9,9 +9,9 @@ public class WallSlideState : PlayerState
     {
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
-        base.EnterState();
+        base.Enter();
         player.IsWallSliding = true;
     }
 
@@ -43,9 +43,9 @@ public class WallSlideState : PlayerState
             stateMachine.ChangeState(player.AirState);
 
     }
-    public override void ExitState()
+    public override void Exit()
     {
         player.IsWallSliding = false;
-        base.ExitState();
+        base.Exit();
     }
 }

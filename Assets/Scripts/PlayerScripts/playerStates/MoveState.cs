@@ -9,9 +9,9 @@ public class MoveState : GroundedState
     {
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
-        base.EnterState();
+        base.Enter();
     }
 
     public override void Update()
@@ -29,8 +29,8 @@ public class MoveState : GroundedState
             stateMachine.ChangeState(player.IdleState);
     }
 
-    public override void ExitState()
+    public override void Exit()
     {
-        base.ExitState();
+        base.Exit();
     }
 }

@@ -10,11 +10,11 @@ public class DashState : PlayerState
     {
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
-        base.EnterState();
+        base.Enter();
 
-        dashCoroutine = player.StartCoroutine(player.StartTimer(ChangeStateController, player.DashDuration));
+        dashCoroutine = player.SetTimer(ChangeStateController, player.DashDuration);
     }
 
     public override void Update()
@@ -41,9 +41,9 @@ public class DashState : PlayerState
         stateMachine.ChangeState(player.IdleState);
     }
 
-    public override void ExitState()
+    public override void Exit()
     {
-        base.ExitState();
+        base.Exit();
     }
 }
 

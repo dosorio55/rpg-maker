@@ -9,10 +9,10 @@ public class IdleState : GroundedState
     {
     }
 
-    public override void EnterState()
+    public override void Enter()
     {
-        base.EnterState();
-        player.RigidBody.velocity = Vector2.zero;
+        base.Enter();
+        player.StopMoving();
     }
 
     public override void Update()
@@ -31,8 +31,8 @@ public class IdleState : GroundedState
         if (xInput != 0)
             stateMachine.ChangeState(player.MoveState);
     }
-    public override void ExitState()
+    public override void Exit()
     {
-        base.ExitState();
+        base.Exit();
     }
 }

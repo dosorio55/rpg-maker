@@ -9,15 +9,16 @@ public class StateMachine<EState> where EState : BaseState
 
     public void Initialize(EState _startingState)
     {
+        Debug.Log(_startingState);
         CurrentState = _startingState;
-        CurrentState.EnterState();
+        CurrentState.Enter();
     }
 
     public void ChangeState(EState _newState)
     {
-        CurrentState.ExitState();
+        CurrentState.Exit();
         CurrentState = _newState;
         Debug.Log(CurrentState);
-        CurrentState.EnterState();
+        CurrentState.Enter();
     }
 }

@@ -29,19 +29,28 @@ public class Entity : MonoBehaviour
     {
     }
 
+    protected virtual void LateUpdate()
+    {
+    }
+
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         RigidBody.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
 
-    protected void Flip()
+    public void Flip()
     {
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }
 
-    public IEnumerator StartTimer(System.Action _endTimerAction, float _time)
+    public Coroutine SetTimer(System.Action _endTimerAction, float _time)
+    {
+       return StartCoroutine(StartTimer(_endTimerAction, _time));
+    }
+
+    private IEnumerator StartTimer(System.Action _endTimerAction, float _time)
     {
         yield return new WaitForSeconds(_time);
         _endTimerAction();
