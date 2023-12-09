@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player : Entity
 {
-
-    public PlayerStateMachine StateMachine { get; private set; }
+    public StateMachine<PlayerState> StateMachine { get; private set; }
 
     [Header("Player Properties")]
     [SerializeField] public float MoveSpeed = 7;
@@ -16,7 +15,6 @@ public class Player : Entity
     [SerializeField] public float WallSlideSpeed = 0.5f;
     [SerializeField] public float WallSlide;
     public bool IsWallSliding { get; set; }
-
 
     [Header("Dash Properties")]
     [SerializeField] public float DashSpeed = 20f;
@@ -34,10 +32,9 @@ public class Player : Entity
     public AttackState AttackState { get; private set; }
     #endregion
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-        StateMachine = new PlayerStateMachine();
+        StateMachine = new StateMachine<PlayerState>();
 
         IdleState = new IdleState(this, StateMachine, "isIdle");
         MoveState = new MoveState(this, StateMachine, "isMoving");
@@ -72,7 +69,7 @@ public class Player : Entity
             ableToDash = false;
             int xInput = (int)Input.GetAxisRaw("Horizontal");
             DashDirection = xInput == 0 ? FacingDirection : xInput;
-            StartCoroutine(StartTimer(() => ableToDash = true, DashCooldown));
+            SetTimer(() => ableToDash = true, DashCooldown);
             StateMachine.ChangeState(DashState);
         }
     }

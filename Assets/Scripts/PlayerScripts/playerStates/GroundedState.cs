@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GroundedState : PlayerState
 {
-    public GroundedState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public GroundedState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName) 
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 

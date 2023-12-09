@@ -19,11 +19,6 @@ public class Entity : MonoBehaviour
     [SerializeField] protected LayerMask groundLayer;
     public int FacingDirection = 1;
 
-    protected virtual void Awake()
-    {
-
-    }
-
     protected virtual void Start()
     {
         RigidBody = GetComponent<Rigidbody2D>();
@@ -32,7 +27,10 @@ public class Entity : MonoBehaviour
 
     protected virtual void Update()
     {
+    }
 
+    protected virtual void LateUpdate()
+    {
     }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
@@ -41,13 +39,18 @@ public class Entity : MonoBehaviour
         FlipController(_xVelocity);
     }
 
-    protected void Flip()
+    public void Flip()
     {
         FacingDirection *= -1;
         transform.Rotate(0, 180, 0);
     }
 
-    public IEnumerator StartTimer(System.Action _endTimerAction, float _time)
+    public Coroutine SetTimer(System.Action _endTimerAction, float _time)
+    {
+       return StartCoroutine(StartTimer(_endTimerAction, _time));
+    }
+
+    private IEnumerator StartTimer(System.Action _endTimerAction, float _time)
     {
         yield return new WaitForSeconds(_time);
         _endTimerAction();
@@ -73,6 +76,10 @@ public class Entity : MonoBehaviour
     public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
     public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, wallCheckDistance, groundLayer);
 
+    public virtual void StopMoving()
+    {
+        SetVelocity(0, RigidBody.velocity.y);
+    }
 
     protected virtual void OnDrawGizmos()
     {

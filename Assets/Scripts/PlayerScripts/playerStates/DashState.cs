@@ -5,7 +5,8 @@ using UnityEngine;
 public class DashState : PlayerState
 {
     Coroutine dashCoroutine;
-    public DashState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public DashState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName)
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
@@ -13,7 +14,7 @@ public class DashState : PlayerState
     {
         base.Enter();
 
-        dashCoroutine = player.StartCoroutine(player.StartTimer(ChangeStateController, player.DashDuration));
+        dashCoroutine = player.SetTimer(ChangeStateController, player.DashDuration);
     }
 
     public override void Update()

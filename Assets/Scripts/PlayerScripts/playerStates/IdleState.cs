@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class IdleState : GroundedState
 {
-    public IdleState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public IdleState(Player _player, StateMachine<PlayerState> _stateMachine, string _animBoolName) 
+        : base(_player, _stateMachine, _animBoolName)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        player.RigidBody.velocity = Vector2.zero;
+        player.StopMoving();
     }
 
     public override void Update()
